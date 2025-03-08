@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Dataset</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+    <div class="bg-white p-8 rounded shadow-md w-96">
+        <h2 class="text-2xl font-bold mb-4">Upload Dataset</h2>
+        
+        <form action="/" method="post" enctype="multipart/form-data" class="mb-4">
+            <input type="file" name="file" class="border p-2 w-full">
+            <button type="submit" class="bg-blue-500 text-white p-2 rounded w-full mt-2">Upload</button>
+        </form>
+
+        {% if uploaded %}
+  <form action="/train" method="post">
+    <label class="block mb-2">Kolom Fitur (X):</label>
+    <select name="x_column" class="border p-2 w-full">
+        {% for col in columns %}
+        <option value="{{ col }}">{{ col }}</option>
+        {% endfor %}
+    </select>
+
+    <label class="block mt-2">Kolom Label (Y):</label>
+    <select name="y_column" class="border p-2 w-full">
+        {% for col in columns %}
+        <option value="{{ col }}">{{ col }}</option>
+        {% endfor %}
+    </select>
+
+    <!-- ✅ Tambahkan input untuk TF-IDF -->
+    <label class="block mt-2">Max Features (TF-IDF):</label>
+    <input type="number" name="max_features" value="5000" class="border p-2 w-full" required>
+
+    <label class="block mt-2">N-gram Range (Contoh: 1,2):</label>
+    <input type="text" name="ngram_range" value="1,2" class="border p-2 w-full" required>
+
+    <label class="block mt-2">Model:</label>
+    <select name="model" class="border p-2 w-full">
+        <option value="KNN">KNN</option>
+        <option value="SVM">SVM</option>
+        <option value="Naive Bayes">Naive Bayes</option>
+        <option value="Logistic Regression">Logistic Regression</option>
+        <option value="Random Forest">Random Forest</option>
+    </select>
+
+<!-- Parameter Model -->
+<div id="model-params" class="mt-4 hidden">
+    <label class="block mt-2">Parameter Model:</label>
+
+    <!-- KNN Parameters -->
+    <div id="knn-params" class="hidden">
+        <label class="block mt-2">n_neighbors:</label>
+        <input type="number" name="n_neighbors" value="5" class="border p-2 w-full">
+    </div>
+
+    <!-- SVM Parameters -->
+    <div id="svm-params" class="hidden">
+        <label class="block mt-2">C (Regularization):</label>
+        <input type="number" name="svm_c" value="1.0" class="border p-2 w-full">
+    </div>
+
+    <!-- Random Forest Parameters -->
+    <div id="rf-params" class="hidden">
+        <label class="block mt-2">n_estimators:</label>
+        <input type="number" name="rf_n_estimators" value="100" class="border p-2 w-full">
+    </div>
+</div>
+
+<script>
+    const modelSelect = document.querySelector('select[name="model"]');
+    const paramsDiv = document.getElementById("model-params");
+
+    modelSelect.addEventListener("change", function() {
+        document.querySelectorAll("#model-params > div").forEach(div => div.classList.add("hidden"));
+        paramsDiv.classList.remove("hidden");
+
+        if (this.value === "KNN") {
+            document.getElementById("knn-params").classList.remove("hidden");
+        } else if (this.value === "SVM") {
+            document.getElementById("svm-params").classList.remove("hidden");
+        } else if (this.value === "Random Forest") {
+            document.getElementById("rf-params").classList.remove("hidden");
+        }
+    });
+</script>
+
+
+
+    <button type="submit" class="bg-green-500 text-white p-2 rounded w-full mt-4">Train Model</button>
+</form>
+
+        {% endif %}
+    </div>
+</body>
+</html>

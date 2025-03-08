@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hasil Evaluasi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="p-8">
+    <h2 class="text-2xl font-bold">Hasil Evaluasi Model: {{ model }}</h2>
+
+    <p class="mt-2"><strong>Akurasi:</strong> {{ accuracy }}</p>
+
+    <h3 class="text-lg font-bold mt-4">Confusion Matrix:</h3>
+    <img src="{{ url_for('static', filename='conf_matrix.png') }}" alt="Confusion Matrix" class="border p-2 mt-2">
+
+<h3 class="text-lg font-bold mt-4">Laporan Klasifikasi:</h3>
+<pre class="bg-gray-200 p-2 whitespace-pre-wrap">{{ report }}</pre>
+
+<a href="{{ url_for('download_model', model_name=model) }}" class="bg-blue-500 text-white p-2 rounded mt-4 inline-block">Download Model</a>
+
+    <a href="/" class="text-blue-500 ml-4">Kembali</a>
+</body>
+</html>
