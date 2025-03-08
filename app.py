@@ -8,7 +8,8 @@ from flask import send_file
 app = Flask(__name__)
 app.secret_key = "supersecretkey"
 UPLOAD_FOLDER = "uploads"
-
+print("Create by https://github.com/itsnatt")
+print("All rights reserved. (Yap, di coding sama ChatGPT)")
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 MODEL_DIR = "models"
